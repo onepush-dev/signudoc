@@ -23,6 +23,6 @@ ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     STORAGE_DRIVER=local \
     STORAGE_LOCAL_DIR=/data/storage \
-    HOSTNAME=0.0.0.0
+    HOSTNAME=::
 EXPOSE 8080
 CMD ["/railway-start.sh"]
