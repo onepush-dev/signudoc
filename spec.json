@@ -1,0 +1,24 @@
+{
+ "slug":"signudoc","name":"SignuDoc","backlog_name":"SignuDoc","code":"VYzQLS","tid":"148b5e03-a1e6-4606-8db8-3351f7392212",
+ "upstream":"https://github.com/NYLLON-SOFTWARE/SignuDoc (MIT), built from commit 24ecc5d (v0.5.2)",
+ "services":[
+  {"name":"signudoc","image":"ghcr.io/onepush-dev/signudoc:0.5.2","port":8080,"volume":"/data","healthcheck":"/api/auth/ok","restart":"ALWAYS (10)","public":true},
+  {"name":"postgres","image":"postgres:17-alpine","port":5432,"volume":"/var/lib/postgresql","healthcheck":null,"restart":"ON_FAILURE (10)","public":false}],
+ "env_vars":{
+  "signudoc":{"DATABASE_URL":"postgresql://postgres:${{postgres.POSTGRES_PASSWORD}}@${{postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/postgres","APP_URL":"https://${{RAILWAY_PUBLIC_DOMAIN}}","BETTER_AUTH_SECRET":"${{secret(32)}}","SETUP_TOKEN":"${{secret(32)}}","RETENTION_JOB_SECRET":"${{secret(32)}}"},
+  "postgres":{"POSTGRES_PASSWORD":"${{secret(32)}}"}},
+ "baked_env":{"STORAGE_DRIVER":"local","STORAGE_LOCAL_DIR":"/data/storage","HOSTNAME":"::","NODE_ENV":"production"},
+ "var_descriptions":{
+  "signudoc.DATABASE_URL":"Postgres connection string, built from the bundled postgres service",
+  "signudoc.APP_URL":"Public HTTPS address for links, auth callbacks and emails; update it if you add a custom domain",
+  "signudoc.BETTER_AUTH_SECRET":"Generated key that signs sessions and encrypts the sealing key; keep it stable",
+  "signudoc.SETUP_TOKEN":"Generated secret the first-run /setup page asks for, so nobody else can claim the install",
+  "signudoc.RETENTION_JOB_SECRET":"Generated secret that closes the daily cleanup route to everyone but the built-in scheduler",
+  "postgres.POSTGRES_PASSWORD":"Generated Postgres superuser password"},
+ "title":"SignuDoc (Self-Hosted DocuSign Alternative)","short_desc":"Self-hosted e-signature app to send, sign and seal PDFs","category":"Other",
+ "icon_note":"mdi/draw-pen (neutral); postgres: devicon postgresql",
+ "service_icons":{"signudoc":"https://api.iconify.design/mdi/draw-pen.svg","postgres":"https://devicons.railway.app/postgresql"},
+ "angle":"Run your own DocuSign: upload a PDF, place signature fields, invite signers by link and get a sealed PDF with an audit trail and signing certificate, without per-envelope fees. Zero inputs on Railway: Postgres bundled, PDFs on a volume, setup page locked behind a generated token, daily retention cleanup scheduled inside the container. Note: another third-party 'signudoc' template exists (Ju Li, 2 deploys); this one builds the upstream source at a pinned commit and also locks setup and the retention route.",
+ "notes":"Upstream has no image or Dockerfile (Vercel-first), so ghcr.io/onepush-dev/signudoc:0.5.2 is built from NYLLON-SOFTWARE/SignuDoc at commit 24ecc5d (code unmodified; Node 24; start script runs db migrations every boot, binds :: on 8080 and calls /api/internal/retention ~2 min after boot and every 24h). Railway healthchecks only pass on /api/auth/ok (all page routes redirect to /setup before setup). EMAIL_DRIVER left unset; RESEND_API_KEY / RESEND_FROM_EMAIL / SUPPORT_EMAIL are optional extras users can add for signing emails (without Resend no emails are delivered). First visit /setup needs SETUP_TOKEN (service variable) plus support address; breached passwords are rejected. Not affiliated with SignuDoc.",
+ "fresh_test":"Built + FRESH-TEST PASSED Nov 20 ~11:00 AM IST: test-signudoc from VYzQLS (signudoc + postgres) deployed with no inputs and healthy; bad setup token 403; /setup with generated SETUP_TOKEN created the admin (201), second setup 409; sign-in OK; PDF uploaded into a draft envelope and downloaded byte-identical (594 bytes) from the /data volume; retention route 401 anon and 200 with RETENTION_JOB_SECRET; in-container scheduler logged 'retention job ok' ~2 min after boot; after redeploying postgres then signudoc, login still works and the PDF is still there (persistence OK)."
+}

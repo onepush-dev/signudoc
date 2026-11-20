@@ -2,7 +2,7 @@
 
 [SignuDoc](https://github.com/NYLLON-SOFTWARE/SignuDoc) (MIT) — a self-hosted, open-source DocuSign alternative: upload a PDF, add signers and fields, send, collect signatures and get a sealed PDF with an audit trail. Deploy it on Railway with one click.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/PLACEHOLDER)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/VYzQLS)
 
 ## What this template runs
 
