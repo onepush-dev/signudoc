@@ -24,3 +24,5 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: ghcr.io/onepush-dev/signudoc:24ecc5d
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
