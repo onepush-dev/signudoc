@@ -6,7 +6,7 @@
 
 ## What this template runs
 
-- **signudoc**: `ghcr.io/onepush-dev/signudoc:24ecc5d`, upstream `NYLLON-SOFTWARE/SignuDoc` built from source at commit `24ecc5d` (code unmodified). It listens on 8080, applies database migrations on every boot, stores PDFs on a volume at `/data` and calls the daily retention cleanup (`/api/internal/retention`) from inside the container.
+- **signudoc**: `ghcr.io/onepush-dev/signudoc:0.5.2`, upstream `NYLLON-SOFTWARE/SignuDoc` built from source at commit `24ecc5d` (code unmodified). It listens on 8080, applies database migrations on every boot, stores PDFs on a volume at `/data` and calls the daily retention cleanup (`/api/internal/retention`) from inside the container.
 - **postgres**: `postgres:17-alpine` with a volume, private network only.
 
 ## Variables

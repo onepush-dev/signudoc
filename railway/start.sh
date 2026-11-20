@@ -22,10 +22,4 @@ done
   done
 ) &
 
-(
-  sleep 10
-  for p in / /api/auth/ok /accessibility /login; do
-    echo "[debug] $p -> $(curl -s -m 20 -o /dev/null -w '%{http_code} %{redirect_url}' -H 'Host: healthcheck.railway.app' http://127.0.0.1:8080$p) | via ipv6: $(curl -s -m 20 -o /dev/null -w '%{http_code}' 'http://[::1]:8080'$p)"
-  done
-) &
 exec node node_modules/next/dist/bin/next start -p 8080 -H ::

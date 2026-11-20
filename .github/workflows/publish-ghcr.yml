@@ -23,6 +23,6 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64
-          tags: ghcr.io/onepush-dev/signudoc:24ecc5d
+          tags: ghcr.io/onepush-dev/signudoc:0.5.2
           cache-from: type=gha
           cache-to: type=gha,mode=max
